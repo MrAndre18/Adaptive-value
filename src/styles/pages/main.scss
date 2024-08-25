@@ -1,0 +1,6 @@
+.main {
+  p {
+    // @include adaptive(font-size, 32, 16);
+    @include adaptiv-font(32, 16)
+  }
+}

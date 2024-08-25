@@ -6,6 +6,34 @@
   @return math.div($size, $fs) * 1rem;
 }
 
+// [min size] + ([max size] - [min size]) * ((100vw - [min viewport size]) / ([max viewport size] - [min viewport size]))
+
+@mixin adaptive($property, $maxSize, $minSize) {
+  $maxVW: 1920;
+  $minVW: 320;
+
+  #{$property}: calc($minSize * 1px + ($maxSize - $minSize) * ((100vw - $minVW * 1px) / ($maxVW - $minVW)))
+}
+
+@mixin adaptiv-font($pcSize, $mobSize) {
+  $screen-min-width: 375px;
+  $screen-max-width: 1920;
+  $addSize: $pcSize - $mobSize;
+  $addMobSize: $addSize + $addSize * 0.7;
+
+  @media (max-width: 768px) {
+    font-size: calc(#{$mobSize + px} + #{$addMobSize} * ((100vw - #{$screen-min-width}) / #{$screen-max-width}));
+  }
+
+  @media (min-width: 768px) {
+    font-size: calc(#{$mobSize + px} + #{$addSize} * (100vw / #{$screen-max-width}));
+  }
+
+  @media (min-width: #{$screen-max-width + px}) {
+    font-size: $pcSize + px;
+  }
+}
+
 //---Настраиваемые значения---//
 $fs: 16px;
 $font: TT Rounds Neue;
